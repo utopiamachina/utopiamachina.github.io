@@ -498,56 +498,51 @@ main {
   letter-spacing: -.04em;
 }
 .newsletter .eyebrow { color: var(--cyan); }
+.newsletter-form-shell,
+.newsletter-form-shell .sib-form-container,
+.newsletter-form-shell #sib-container {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  text-align: left;
+  background: transparent;
+  border: 0;
+}
 .signup-form {
   position: relative;
   display: grid;
   grid-template-columns: 1.2fr .8fr;
   align-items: center;
-  gap: clamp(1rem, 2vw, 2rem);
+  column-gap: clamp(1rem, 2vw, 2rem);
+  row-gap: 0;
 }
+.signup-form.is-expanded { row-gap: 1rem; }
 .newsletter-promise {
   margin: 0;
   color: var(--muted);
   font-size: clamp(.68rem, .85vw, .8rem);
   line-height: 1.4;
 }
-.signup-form fieldset {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: .5rem;
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-.signup-form label:not(.sr-only) {
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: .5rem;
-  cursor: pointer;
-}
-.signup-form input[type="checkbox"] {
-  flex: 0 0 auto;
-  width: 1rem;
-  height: 1rem;
-  accent-color: var(--cyan);
-}
-.signup-form label span { min-width: 0; display: flex; flex-direction: column; }
-.signup-form strong {
-  overflow: hidden;
-  font-size: .69rem;
-  line-height: 1.15;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.signup-form small { color: var(--muted); font-size: .58rem; }
+.newsletter-promise,
+.email-wrap { align-self: center; }
 .email-wrap {
   display: flex;
   align-items: stretch;
+  padding: 0;
   border: 1px solid rgba(255,255,255,.28);
   border-radius: .35rem;
   overflow: hidden;
 }
+.email-wrap .form__entry,
+.email-wrap .form__label-row,
+.email-wrap .entry__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+.email-wrap .entry__field { display: flex; }
 .email-wrap input {
   min-width: 0;
   width: 100%;
@@ -558,8 +553,12 @@ main {
   outline: 0;
   font-size: .75rem;
 }
-.email-wrap button {
+.email-wrap button,
+.email-wrap .sib-form-block__button {
   flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  margin: 0;
   padding: .7rem .8rem;
   color: var(--ink);
   background: linear-gradient(105deg, var(--amber), var(--lime), var(--cyan));
@@ -571,15 +570,121 @@ main {
   letter-spacing: .04em;
   text-transform: uppercase;
 }
-.form-status {
-  position: absolute;
-  right: 0;
-  bottom: -.85rem;
-  margin: 0;
-  color: var(--cyan);
-  font-size: .58rem;
-  font-weight: 700;
+.email-wrap .progress-indicator__icon { width: .7rem; height: .7rem; }
+.email-wrap .entry__error { margin: 0; }
+.newsletter-details {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 1fr);
+  gap: 1rem 1.5rem;
+  max-height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transition: max-height .35s ease, opacity .25s ease, padding-top .35s ease;
 }
+.signup-form.is-expanded .newsletter-details {
+  max-height: 32rem;
+  padding-top: .25rem;
+  overflow: visible;
+  visibility: visible;
+  opacity: 1;
+}
+.sib-form__declaration {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  color: var(--muted);
+  font-size: .66rem;
+  line-height: 1.45;
+}
+.sib-form__declaration p,
+.entry__choice p,
+.entry__specification { margin: 0; }
+.sib-form__declaration a { color: var(--cyan); }
+.newsletter-details .sib-form-block { padding: 0; }
+.newsletter-details .entry__label {
+  display: block;
+  margin-bottom: .35rem;
+  color: var(--paper);
+  font-size: .65rem;
+}
+.newsletter-details .entry__choice label.consent-choice {
+  min-width: 0;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start;
+  gap: .5rem;
+  color: var(--paper);
+  cursor: pointer;
+}
+.newsletter-details .entry__choice {
+  padding-left: 0;
+  text-indent: 0;
+}
+.newsletter-details .consent-choice input[type="checkbox"] {
+  position: static !important;
+  z-index: auto !important;
+  flex: 0 0 1rem;
+  width: 1rem;
+  height: 1rem;
+  margin: .05rem 0 0;
+  opacity: 1 !important;
+  accent-color: var(--cyan);
+}
+.newsletter-details .consent-choice .consent-copy {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: block !important;
+  align-self: start;
+}
+.newsletter-details .entry__choice strong {
+  display: block;
+  overflow: visible;
+  font-size: .69rem;
+  line-height: 1.3;
+  white-space: normal;
+}
+.newsletter-details .entry__specification {
+  display: block;
+  padding: .3rem 0 0 1.5rem;
+  color: var(--muted);
+  font-size: .58rem;
+}
+.newsletter-details .entry__error {
+  margin: .35rem 0 0;
+  color: #ffb7b7;
+  background: transparent;
+  border: 0;
+  font-size: .65rem;
+}
+.newsletter-details .sib-captcha { min-height: 65px; }
+.newsletter-form-shell .sib-form-message-panel {
+  max-width: none;
+  margin: 0 0 .75rem;
+  padding: .65rem .8rem;
+  border: 1px solid;
+  border-radius: .35rem;
+  font-size: .72rem;
+}
+.newsletter-form-shell #error-message {
+  color: #ffd5d5;
+  background: rgba(112, 16, 28, .55);
+  border-color: rgba(255, 102, 112, .65);
+}
+.newsletter-form-shell #success-message {
+  color: #d8ffe5;
+  background: rgba(14, 86, 52, .55);
+  border-color: rgba(72, 215, 132, .65);
+}
+.newsletter-form-shell .sib-notification__icon {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  fill: currentColor;
+}
+.newsletter-form-shell .sib-form-message-panel__text { padding: 0; }
+.newsletter-form-shell .sib-form-message-panel__text--center { justify-content: flex-start; }
+.newsletter-form-shell .input--hidden { position: absolute; left: -9999px; }
 
 .site-footer {
   min-height: 3.2rem;
@@ -648,7 +753,7 @@ main {
   .feature-grid { grid-template-columns: 1fr; }
   .newsletter { grid-template-columns: 1fr; }
   .signup-form { grid-template-columns: 1fr; }
-  .form-status { position: static; grid-column: 1 / -1; }
+  .newsletter-details { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 700px) {
@@ -670,11 +775,13 @@ main {
   .detail-header .brand-lockup-image { height: 4.5rem; }
   .detail-nav a:not(.back-link) { display: none; }
   .newsletter { margin-top: 1.25rem; padding: 1.2rem; }
-  .signup-form fieldset { grid-template-columns: 1fr; gap: .8rem; }
-  .signup-form strong { font-size: .78rem; }
-  .signup-form small { font-size: .65rem; }
+  .newsletter-details .entry__choice strong { font-size: .78rem; }
   .email-wrap { flex-direction: column; }
   .email-wrap button { text-align: left; }
+  .newsletter-details { grid-template-columns: 1fr; }
+  .sib-form__declaration { grid-column: 1; grid-row: auto; }
+  .signup-form.is-expanded .newsletter-details { max-height: 42rem; }
+  .newsletter-details .sib-captcha { overflow-x: auto; }
   .site-footer { min-height: 5rem; align-items: flex-start; flex-direction: column; justify-content: center; }
   .legal { grid-template-columns: 1fr; }
 }

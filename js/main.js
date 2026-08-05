@@ -1,4 +1,5 @@
 /** @typedef {"accepted" | "rejected" | null} AnalyticsConsent */
+/** @typedef {Record<string, string | number | boolean>} AnalyticsEventParameters */
 
 /** @type {string} */
 const GOOGLE_ANALYTICS_ID = "G-81ZLBCHE37";
@@ -6,6 +7,10 @@ const GOOGLE_ANALYTICS_ID = "G-81ZLBCHE37";
 const ANALYTICS_CONSENT_KEY = "utopia-machina-analytics-consent";
 /** @type {string} */
 const GOOGLE_ANALYTICS_DISABLE_PROPERTY = `ga-disable-${GOOGLE_ANALYTICS_ID}`;
+/** @type {RegExp} */
+const EMAIL_ADDRESS_PATTERN = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i;
+/** @type {boolean} */
+let googleAnalyticsReady = false;
 
 /**
  * Read the saved analytics preference without assuming localStorage is available.
@@ -81,6 +86,11 @@ const clearGoogleAnalyticsCookies = () => {
   analyticsCookieNames.forEach(expireAnalyticsCookie);
 };
 
+/** @returns {void} */
+const handleGoogleAnalyticsLoad = () => {
+  googleAnalyticsReady = true;
+};
+
 /**
  * Dynamically initialise and load GA4 after explicit consent.
  * @returns {void}
@@ -126,6 +136,7 @@ const loadGoogleAnalytics = () => {
   analyticsScript.async = true;
   analyticsScript.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GOOGLE_ANALYTICS_ID)}`;
   analyticsScript.dataset.googleAnalytics = "true";
+  analyticsScript.addEventListener("load", handleGoogleAnalyticsLoad, { once: true });
   document.head.append(analyticsScript);
 };
 
@@ -141,6 +152,117 @@ const disableGoogleAnalytics = () => {
   }
 
   clearGoogleAnalyticsCookies();
+};
+
+/**
+ * Send one custom event only when consent is active and GA4 has finished loading.
+ * Events produced earlier are discarded and never queued.
+ * @param {string} eventName
+ * @param {AnalyticsEventParameters} parameters
+ * @returns {boolean}
+ */
+const trackAnalyticsEvent = (eventName, parameters) => {
+  if (
+    analyticsConsent !== "accepted" ||
+    !googleAnalyticsReady ||
+    typeof window.gtag !== "function"
+  ) {
+    return false;
+  }
+
+  /** @type {string} */
+  const serializedParameters = JSON.stringify(parameters);
+
+  if (EMAIL_ADDRESS_PATTERN.test(serializedParameters)) {
+    return false;
+  }
+
+  window.gtag("event", eventName, parameters);
+  return true;
+};
+
+/**
+ * Return stable visible link text without surrounding or repeated whitespace.
+ * @param {HTMLAnchorElement} link
+ * @returns {string}
+ */
+const getAnalyticsLinkText = (link) => {
+  return (link.textContent ?? "").replace(/\s+/g, " ").trim();
+};
+
+/**
+ * Remove query strings, fragments, and personal destinations from a tracked URL.
+ * @param {HTMLAnchorElement} link
+ * @returns {string}
+ */
+const getAnalyticsLinkUrl = (link) => {
+  try {
+    /** @type {URL} */
+    const url = new URL(link.href, window.location.href);
+
+    if (url.protocol === "mailto:" || url.protocol === "tel:") {
+      return url.protocol;
+    }
+
+    return url.origin === window.location.origin ? url.pathname : `${url.origin}${url.pathname}`;
+  } catch {
+    return "invalid-url";
+  }
+};
+
+/**
+ * Track one annotated link without delaying its normal navigation.
+ * @param {MouseEvent} event
+ * @returns {void}
+ */
+const handleAnalyticsLinkClick = (event) => {
+  if (!(event.target instanceof Element)) {
+    return;
+  }
+
+  /** @type {HTMLAnchorElement | null} */
+  const link = event.target.closest("a[data-analytics-event]");
+
+  if (!link) {
+    return;
+  }
+
+  /** @type {string} */
+  const eventName = link.dataset.analyticsEvent ?? "";
+  /** @type {string} */
+  const linkLocation = link.dataset.analyticsLocation ?? "unknown";
+  /** @type {string} */
+  const linkUrl = getAnalyticsLinkUrl(link);
+  /** @type {string} */
+  const linkText = getAnalyticsLinkText(link);
+
+  if (eventName === "steam_click") {
+    trackAnalyticsEvent(eventName, {
+      game: link.dataset.analyticsGame ?? "unknown",
+      link_url: linkUrl,
+      link_text: linkText,
+      link_location: linkLocation
+    });
+  } else if (eventName === "lunch_strolls_interest_click" || eventName === "discord_click") {
+    trackAnalyticsEvent(eventName, {
+      link_url: linkUrl,
+      link_text: linkText,
+      link_location: linkLocation
+    });
+  } else if (eventName === "social_click") {
+    trackAnalyticsEvent(eventName, {
+      platform: link.dataset.analyticsPlatform ?? "unknown",
+      link_url: linkUrl,
+      link_text: linkText,
+      link_location: linkLocation
+    });
+  } else if (eventName === "game_page_open") {
+    trackAnalyticsEvent(eventName, {
+      game: link.dataset.analyticsGame ?? "unknown",
+      destination_path: linkUrl,
+      link_location: linkLocation
+    });
+  }
 };
 
 /**
@@ -248,6 +370,7 @@ const bindCookieSettingsLink = (settingsLink) => {
 acceptAnalyticsButton?.addEventListener("click", handleAcceptAnalytics);
 rejectAnalyticsButton?.addEventListener("click", handleRejectAnalytics);
 document.querySelectorAll("[data-cookie-settings]").forEach(bindCookieSettingsLink);
+document.addEventListener("click", handleAnalyticsLinkClick);
 
 if (analyticsConsent === "accepted") {
   loadGoogleAnalytics();
@@ -269,9 +392,44 @@ if (newsletterForm) {
   const newsletterButton = newsletterForm.querySelector('button[type="submit"]');
   /** @type {HTMLInputElement | null} */
   const consentInput = newsletterDetails?.querySelector("input") ?? null;
+  /** @type {HTMLElement | null} */
+  const newsletterSuccessMessage = document.getElementById("success-message");
+  /** @type {HTMLElement | null} */
+  const newsletterFailureMessage = document.getElementById("error-message");
+  /** @type {HTMLElement | null} */
+  const newsletterFormContainer = document.getElementById("sib-form-container");
+  /** @type {string} */
+  const newsletterFormLocation = newsletterForm.dataset.analyticsLocation ?? "unknown";
+  /** @type {boolean} */
+  let newsletterStarted = false;
+  /** @type {boolean} */
+  let newsletterSubmissionPending = false;
+  /** @type {boolean} */
+  let newsletterSuccessTracked = false;
+  /** @type {Set<string>} */
+  let visibleNewsletterErrors = new Set();
+
+  /** @returns {AnalyticsEventParameters} */
+  const getNewsletterEventParameters = () => ({
+    form_name: "main_newsletter",
+    form_location: newsletterFormLocation,
+    newsletter_provider: "brevo"
+  });
+
+  /** @returns {void} */
+  const trackNewsletterStart = () => {
+    if (newsletterStarted) {
+      return;
+    }
+
+    newsletterStarted = true;
+    trackAnalyticsEvent("newsletter_form_start", getNewsletterEventParameters());
+  };
 
   /** @returns {void} */
   const expandNewsletter = () => {
+    trackNewsletterStart();
+
     if (!newsletterDetails || newsletterForm.classList.contains("is-expanded")) {
       return;
     }
@@ -283,6 +441,8 @@ if (newsletterForm) {
 
   /** @returns {void} */
   const handleNewsletterEmailInput = () => {
+    trackNewsletterStart();
+
     if (emailInput?.value.trim()) {
       expandNewsletter();
     }
@@ -317,12 +477,133 @@ if (newsletterForm) {
       event.stopImmediatePropagation();
       expandNewsletter();
       consentInput?.focus();
+      return;
+    }
+
+    newsletterSubmissionPending = true;
+  };
+
+  /**
+   * Confirm that Brevo received a real submission request after validation.
+   * @param {PerformanceObserverEntryList} entryList
+   * @returns {void}
+   */
+  const handleNewsletterResourceEntries = (entryList) => {
+    if (!newsletterSubmissionPending) {
+      return;
+    }
+
+    for (const entry of entryList.getEntries()) {
+      if (entry.name.startsWith(newsletterForm.action)) {
+        newsletterSubmissionPending = false;
+        trackAnalyticsEvent("newsletter_form_submit", getNewsletterEventParameters());
+        break;
+      }
     }
   };
 
+  /**
+   * Determine whether Brevo is currently displaying a status or validation node.
+   * @param {Element | null} element
+   * @returns {boolean}
+   */
+  const isNewsletterStatusVisible = (element) => {
+    if (!element) {
+      return false;
+    }
+
+    /** @type {CSSStyleDeclaration} */
+    const style = window.getComputedStyle(element);
+    return !element.hasAttribute("hidden") && style.display !== "none" && style.visibility !== "hidden";
+  };
+
+  /**
+   * Convert a Brevo field-error location into a stable, non-personal error type.
+   * @param {Element} errorElement
+   * @returns {string}
+   */
+  const getNewsletterErrorType = (errorElement) => {
+    if (errorElement.closest(".sib-input")) {
+      return "invalid_email";
+    }
+
+    if (errorElement.closest(".sib-optin")) {
+      return "missing_consent";
+    }
+
+    if (errorElement.closest(".sib-captcha")) {
+      return "captcha_failure";
+    }
+
+    return "validation_error";
+  };
+
+  /** @returns {void} */
+  const inspectNewsletterStatus = () => {
+    if (isNewsletterStatusVisible(newsletterSuccessMessage) && !newsletterSuccessTracked) {
+      newsletterSuccessTracked = true;
+      trackAnalyticsEvent("newsletter_subscription_success", {
+        form_name: "main_newsletter",
+        newsletter_provider: "brevo",
+        confirmation_stage: "form_accepted"
+      });
+    }
+
+    /** @type {Set<string>} */
+    const currentErrors = new Set();
+
+    if (isNewsletterStatusVisible(newsletterFailureMessage)) {
+      currentErrors.add("submission_failure");
+    }
+
+    /** @type {NodeListOf<Element>} */
+    const fieldErrors = newsletterForm.querySelectorAll(".entry__error");
+
+    for (const errorElement of fieldErrors) {
+      if (errorElement.textContent?.trim() && isNewsletterStatusVisible(errorElement)) {
+        currentErrors.add(getNewsletterErrorType(errorElement));
+      }
+    }
+
+    for (const errorType of currentErrors) {
+      if (!visibleNewsletterErrors.has(errorType)) {
+        trackAnalyticsEvent("newsletter_form_error", {
+          form_name: "main_newsletter",
+          error_type: errorType,
+          newsletter_provider: "brevo"
+        });
+      }
+    }
+
+    visibleNewsletterErrors = currentErrors;
+  };
+
+  /** @type {MutationCallback} */
+  const handleNewsletterStatusMutation = () => {
+    inspectNewsletterStatus();
+  };
+
+  emailInput?.addEventListener("focus", trackNewsletterStart, { once: true });
   emailInput?.addEventListener("input", handleNewsletterEmailInput);
   newsletterButton?.addEventListener("click", handleNewsletterButtonClick);
   newsletterForm.addEventListener("submit", handleNewsletterSubmit, true);
+
+  if ("PerformanceObserver" in window) {
+    /** @type {PerformanceObserver} */
+    const newsletterResourceObserver = new PerformanceObserver(handleNewsletterResourceEntries);
+    newsletterResourceObserver.observe({ type: "resource", buffered: true });
+  }
+
+  if (newsletterFormContainer && "MutationObserver" in window) {
+    /** @type {MutationObserver} */
+    const newsletterStatusObserver = new MutationObserver(handleNewsletterStatusMutation);
+    newsletterStatusObserver.observe(newsletterFormContainer, {
+      attributes: true,
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
+  }
 }
 
 /**

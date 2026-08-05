@@ -730,6 +730,63 @@ main {
 .site-footer > div { display: flex; gap: 1rem; }
 .site-footer a { text-underline-offset: .2rem; }
 
+.cookie-consent[hidden] { display: none; }
+.cookie-consent {
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  bottom: clamp(.75rem, 2vw, 1.5rem);
+  width: min(calc(100% - 2rem), 68rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  padding: .85rem 1rem;
+  color: var(--paper);
+  background:
+    linear-gradient(rgba(5,14,17,.97), rgba(5,14,17,.97)) padding-box,
+    linear-gradient(105deg, var(--hot), var(--amber), var(--lime), var(--cyan), var(--magenta)) border-box;
+  border: 1px solid transparent;
+  border-radius: .55rem;
+  box-shadow: 0 1rem 4rem rgba(0,0,0,.5);
+}
+.cookie-consent:focus { outline: 2px solid var(--cyan); outline-offset: 2px; }
+.cookie-consent-copy strong {
+  display: block;
+  margin-bottom: .15rem;
+  font-size: .82rem;
+}
+.cookie-consent-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .68rem;
+  line-height: 1.45;
+}
+.cookie-consent-copy a { color: var(--cyan); text-underline-offset: .18rem; }
+.cookie-consent-actions { display: flex; gap: .55rem; }
+.cookie-consent-button {
+  min-height: 2.5rem;
+  padding: .6rem .8rem;
+  color: var(--paper);
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: .3rem;
+  cursor: pointer;
+  font-family: "Cascadia Mono", "Consolas", monospace;
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.cookie-consent-button[data-consent="accept"] {
+  color: var(--ink);
+  background: linear-gradient(105deg, var(--amber), var(--lime), var(--cyan));
+  border-color: transparent;
+}
+.cookie-consent-button:hover,
+.cookie-consent-button:focus-visible { border-color: var(--paper); }
+.cookie-consent-button:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
 .privacy-page { color: var(--ink); background: var(--paper); }
 .privacy-page .site-header {
   min-height: 4.5rem;
@@ -766,6 +823,7 @@ main {
 .legal-copy section { padding-bottom: 2rem; margin-bottom: 2rem; border-bottom: 1px solid rgba(9,7,15,.15); }
 .legal-copy h2 { margin: 0 0 .5rem; }
 .legal-copy p { margin: 0; color: #4d4852; }
+.legal-copy p + p { margin-top: .8rem; }
 .legal-footer { margin: 0 var(--pad); }
 
 @media (max-width: 980px) {
@@ -809,6 +867,9 @@ main {
   .signup-form.is-expanded .newsletter-details { max-height: 42rem; }
   .newsletter-details .sib-captcha { overflow-x: auto; }
   .site-footer { min-height: 5rem; align-items: flex-start; flex-direction: column; justify-content: center; }
+  .cookie-consent { grid-template-columns: 1fr; }
+  .cookie-consent-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .cookie-consent-button { width: 100%; }
   .legal { grid-template-columns: 1fr; }
 }
 

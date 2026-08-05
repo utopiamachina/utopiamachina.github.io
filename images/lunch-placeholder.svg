@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000">
+  <rect width="1200" height="1000" fill="#f1b670"/>
+  <circle cx="945" cy="170" r="95" fill="#fff1a6"/>
+  <path d="M0 570c190-170 330-105 480-20s310 80 470-45 250-20 250-20v515H0Z" fill="#c6dd76"/>
+  <path d="M0 730c190-100 350-42 500 40s350 60 700-90v320H0Z" fill="#7eb56a"/>
+  <path d="M670 770c-80-25-114-123-61-184 29-34 72-32 101-5 11-58 74-81 116-45 41 35 32 103-8 139 42 58 7 129-64 132Z" fill="#4c3a50"/>
+  <path d="M663 583c-30-73-75-108-126-124 54-23 114 4 152 69Z" fill="#4c3a50"/>
+  <circle cx="703" cy="619" r="9" fill="#fff"/><circle cx="762" cy="610" r="9" fill="#fff"/>
+  <circle cx="704" cy="621" r="4" fill="#17151a"/><circle cx="761" cy="612" r="4" fill="#17151a"/>
+  <path d="M718 656q28 20 54-5" fill="none" stroke="#17151a" stroke-width="7" stroke-linecap="round"/>
+  <g fill="#eff4b6"><circle cx="148" cy="420" r="20"/><circle cx="190" cy="450" r="15"/><circle cx="1010" cy="505" r="19"/><circle cx="1050" cy="540" r="12"/></g>
+  <text x="70" y="100" fill="#273024" font-family="monospace" font-size="20" letter-spacing="6">LUNCH STROLLS</text>
+</svg>

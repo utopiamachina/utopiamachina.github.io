@@ -3,48 +3,350 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Utopia Machina</title>
-  <meta
-    name="description"
-    content="Utopia Machina is an independent game studio creating playful, unusual games."
-  >
-
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      box-sizing: border-box;
-      font-family: system-ui, sans-serif;
-      background: #111;
-      color: #fff;
-      text-align: center;
-    }
-
-    main {
-      max-width: 720px;
-    }
-
-    h1 {
-      font-size: clamp(2.5rem, 8vw, 5rem);
-      margin-bottom: 16px;
-    }
-
-    p {
-      font-size: 1.2rem;
-      line-height: 1.6;
-      color: #ccc;
-    }
-  </style>
+  <meta name="theme-color" content="#09070f">
+  <meta name="description" content="Utopia Machina makes small, playful games: Hunters In The Dark and the Lunch Strolls prototype.">
+  <meta property="og:title" content="Utopia Machina — Small games, curious worlds">
+  <meta property="og:description" content="Hunters In The Dark, Lunch Strolls, and dispatches from an independent game maker.">
+  <meta property="og:image" content="images/social-preview.svg">
+  <meta property="og:type" content="website">
+  <title>Utopia Machina — Small games, curious worlds</title>
+  <link rel="icon" href="images/utopia-machina-logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
 </head>
-
 <body>
-  <main>
-    <h1>Utopia Machina</h1>
-    <p>Tiny utopias of playful chaos.</p>
-    <p>Our new studio website is coming soon.</p>
-  </main>
+  <a class="skip-link" href="#main">Skip to the games</a>
+
+  <svg class="spectral-bg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="spectrum-a" x1="0" y1="0" x2="1" y2=".3">
+        <stop offset="0" stop-color="#ec2864"/>
+        <stop offset=".17" stop-color="#ff5b22"/>
+        <stop offset=".34" stop-color="#ffc225"/>
+        <stop offset=".5" stop-color="#88dc43"/>
+        <stop offset=".67" stop-color="#14c4a3"/>
+        <stop offset=".84" stop-color="#2787e9"/>
+        <stop offset="1" stop-color="#db2da7"/>
+      </linearGradient>
+      <linearGradient id="spectrum-b" x1=".1" y1="1" x2=".8" y2="0">
+        <stop offset="0" stop-color="#237edb"/>
+        <stop offset=".2" stop-color="#1bc8bc"/>
+        <stop offset=".4" stop-color="#82df41"/>
+        <stop offset=".6" stop-color="#ffd025"/>
+        <stop offset=".8" stop-color="#ff5824"/>
+        <stop offset="1" stop-color="#eb237f"/>
+      </linearGradient>
+      <linearGradient id="warm-a" gradientUnits="userSpaceOnUse" x1="-230" y1="940" x2="40" y2="257">
+        <stop offset="0" stop-color="#2c82e4"/><stop offset="1" stop-color="#16c3c7"/>
+      </linearGradient>
+      <linearGradient id="warm-b" gradientUnits="userSpaceOnUse" x1="40" y1="257" x2="283" y2="159">
+        <stop offset="0" stop-color="#16c3c7"/><stop offset="1" stop-color="#55d64a"/>
+      </linearGradient>
+      <linearGradient id="warm-c" gradientUnits="userSpaceOnUse" x1="283" y1="159" x2="272" y2="339">
+        <stop offset="0" stop-color="#55d64a"/><stop offset="1" stop-color="#b8dc35"/>
+      </linearGradient>
+      <linearGradient id="warm-d" gradientUnits="userSpaceOnUse" x1="272" y1="339" x2="143" y2="302">
+        <stop offset="0" stop-color="#b8dc35"/><stop offset="1" stop-color="#ffe02c"/>
+      </linearGradient>
+      <linearGradient id="warm-e" gradientUnits="userSpaceOnUse" x1="143" y1="302" x2="270" y2="262">
+        <stop offset="0" stop-color="#ffe02c"/><stop offset=".48" stop-color="#f47a3d"/><stop offset=".76" stop-color="#ef4535"/><stop offset="1" stop-color="#e93643"/>
+      </linearGradient>
+      <linearGradient id="warm-f" gradientUnits="userSpaceOnUse" x1="270" y1="262" x2="236.5" y2="306.2">
+        <stop offset="0" stop-color="#e93643"/><stop offset="1" stop-color="#e43655"/>
+      </linearGradient>
+      <linearGradient id="warm-g" gradientUnits="userSpaceOnUse" x1="236.5" y1="306.2" x2="217" y2="307">
+        <stop offset="0" stop-color="#e43655"/><stop offset="1" stop-color="#db2da7"/>
+      </linearGradient>
+      <linearGradient id="warm-tip" gradientUnits="userSpaceOnUse" x1="270" y1="262" x2="217" y2="307">
+        <stop offset="0" stop-color="#e93643"/>
+        <stop offset=".68" stop-color="#e43655"/>
+        <stop offset="1" stop-color="#db2da7"/>
+      </linearGradient>
+      <path id="warm-path-a" d="M-230 940C-55 758-55 448 40 257"/>
+      <path id="warm-path-b" d="M40 257C99 139 210 99 283 159"/>
+      <path id="warm-path-c" d="M283 159C343 208 337 299 272 339"/>
+      <path id="warm-path-d" d="M272 339C220 371 160 349 143 302"/>
+      <path id="warm-path-e" d="M143 302C127 258 155 217 198 208C238 200 272 227 270 262"/>
+      <path id="warm-path-f" d="M270 262C269.25 283.75 255 301 236.5 306.2"/>
+      <path id="warm-path-g" d="M236.5 306.2C230.4 307.9 223.75 308.25 217 307"/>
+      <g id="warm-body">
+        <use href="#warm-path-a" stroke="url(#warm-a)"/><use href="#warm-path-b" stroke="url(#warm-b)"/>
+        <use href="#warm-path-c" stroke="url(#warm-c)"/><use href="#warm-path-d" stroke="url(#warm-d)"/>
+        <use href="#warm-path-e" stroke="url(#warm-e)"/>
+      </g>
+      <linearGradient id="wave-a" gradientUnits="userSpaceOnUse" x1="-110" y1="1080" x2="112" y2="660">
+        <stop offset="0" stop-color="#2c82e4"/><stop offset="1" stop-color="#16c3c7"/>
+      </linearGradient>
+      <linearGradient id="wave-b" gradientUnits="userSpaceOnUse" x1="112" y1="660" x2="333" y2="565">
+        <stop offset="0" stop-color="#16c3c7"/><stop offset="1" stop-color="#55d64a"/>
+      </linearGradient>
+      <linearGradient id="wave-c" gradientUnits="userSpaceOnUse" x1="333" y1="565" x2="445" y2="675">
+        <stop offset="0" stop-color="#55d64a"/><stop offset=".56" stop-color="#ffe02c"/><stop offset="1" stop-color="#db2da7"/>
+      </linearGradient>
+      <path id="wave-path-a" d="M-110 1080C-20 910 35 760 112 660"/>
+      <path id="wave-path-b" d="M112 660C180 572 258 538 333 565"/>
+      <path id="wave-path-c" d="M333 565C386 584 423 624 445 675"/>
+      <g id="wave-body">
+        <use href="#wave-path-a" stroke="url(#wave-a)"/>
+        <use href="#wave-path-b" stroke="url(#wave-b)"/>
+      </g>
+      <linearGradient id="right-ribbon" gradientUnits="userSpaceOnUse" x1="650" y1="1020" x2="1415" y2="175">
+        <stop offset="0" stop-color="#2c82e4"/>
+        <stop offset=".2" stop-color="#16c3c7"/>
+        <stop offset=".4" stop-color="#55d64a"/>
+        <stop offset=".6" stop-color="#ffe02c"/>
+        <stop offset=".8" stop-color="#f0443b"/>
+        <stop offset="1" stop-color="#db2da7"/>
+      </linearGradient>
+      <linearGradient id="bottom-a" gradientUnits="userSpaceOnUse" x1="1705" y1="762" x2="1125" y2="727">
+        <stop offset="0" stop-color="#2c82e4"/><stop offset=".48" stop-color="#16c3c7"/><stop offset="1" stop-color="#55d64a"/>
+      </linearGradient>
+      <linearGradient id="bottom-b" gradientUnits="userSpaceOnUse" x1="1125" y1="727" x2="1204" y2="1046">
+        <stop offset="0" stop-color="#55d64a"/><stop offset=".58" stop-color="#ffe02c"/><stop offset="1" stop-color="#db2da7"/>
+      </linearGradient>
+      <path id="bottom-path-a" d="M1705 762C1436 548 1247 577 1125 727"/>
+      <path id="bottom-path-b" d="M1125 727C1031 842 1084 982 1204 1046"/>
+      <filter id="trail-glow" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur stdDeviation="5" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <g transform="translate(0 35)" fill="none" stroke-linecap="round">
+      <g class="spectral-trails trail-left">
+        <g class="trail-bundle trail-bundle-wave" stroke-width="1.6" filter="url(#trail-glow)">
+          <g transform="translate(-4 2)">
+            <use href="#wave-body"/>
+            <path d="M333 565C338.3 566.9 343.44 569.01 348.42 571.32" stroke="url(#wave-c)"/>
+          </g>
+          <g transform="translate(-3 1.5)">
+            <use href="#wave-body"/>
+            <path d="M333 565C342.01 568.23 350.56 572.07 358.65 576.46" stroke="url(#wave-c)"/>
+          </g>
+          <g transform="translate(-2 1)">
+            <use href="#wave-body"/>
+            <path d="M333 565C345.72 569.56 357.52 575.33 368.41 582.17" stroke="url(#wave-c)"/>
+          </g>
+          <g transform="translate(-1 .5)">
+            <use href="#wave-body"/>
+            <path d="M333 565C349.43 570.89 364.32 578.8 377.71 588.43" stroke="url(#wave-c)"/>
+          </g>
+          <g>
+            <use href="#wave-body"/>
+            <use href="#wave-path-c" stroke="url(#wave-c)"/>
+          </g>
+          <g transform="translate(1 -.5)">
+            <use href="#wave-body"/>
+            <path d="M333 565C353.14 572.22 370.97 582.47 386.54 595.21" stroke="url(#wave-c)"/>
+          </g>
+          <g transform="translate(2 -1)">
+            <use href="#wave-body"/>
+            <path d="M333 565C356.85 573.55 377.46 586.35 394.92 602.5" stroke="url(#wave-c)"/>
+          </g>
+          <g transform="translate(3 -1.5)">
+            <use href="#wave-body"/>
+            <path d="M333 565C360.56 574.88 383.79 590.44 402.84 610.27" stroke="url(#wave-c)"/>
+          </g>
+          <g transform="translate(4 -2)">
+            <use href="#wave-body"/>
+            <path d="M333 565C364.27 576.21 389.97 594.73 410.31 618.51" stroke="url(#wave-c)"/>
+          </g>
+        </g>
+      </g>
+    </g>
+    <g transform="translate(55 145)" fill="none" stroke-linecap="round">
+      <g class="spectral-trails trail-red">
+        <g class="trail-bundle trail-bundle-warm" stroke-width="1.6" stroke-linecap="round" filter="url(#trail-glow)">
+          <g transform="translate(-4 2)">
+            <use href="#warm-body"/>
+          </g>
+          <g transform="translate(-3 1.5)">
+            <use href="#warm-body"/>
+          </g>
+          <g transform="translate(-2 1)">
+            <use href="#warm-body"/>
+          </g>
+          <g transform="translate(-1 .5)">
+            <use href="#warm-body"/>
+          </g>
+          <g>
+            <use href="#warm-body"/>
+          </g>
+          <g transform="translate(1 -.5)">
+            <use href="#warm-body"/>
+          </g>
+          <g transform="translate(2 -1)">
+            <use href="#warm-body"/>
+          </g>
+          <g transform="translate(3 -1.5)">
+            <use href="#warm-body"/>
+          </g>
+          <g transform="translate(4 -2)">
+            <use href="#warm-body"/>
+          </g>
+          <path
+            d="M265 262
+               C264 281 251 299 232 303
+               C226 304 220 304 217 307
+               C221 310 228 312 235 311
+               C256 307 274 287 275 262Z"
+            fill="url(#warm-tip)"
+            stroke="none"
+          />
+        </g>
+      </g>
+    </g>
+    <g class="spectral-trails trail-right">
+      <path
+        d="M650 1020
+           C690 880 750 815 860 755
+           C1000 680 1140 675 1260 580
+           C1360 500 1420 300 1415 175
+           C1420 300 1370 515 1270 594
+           C1150 689 1007 697 870 771
+           C763 830 701 892 650 1020Z"
+        fill="url(#right-ribbon)"
+        filter="url(#trail-glow)"
+      />
+    </g>
+    <g transform="translate(0 140)">
+      <g class="spectral-trails trail-bottom" fill="none" stroke-linecap="round">
+        <g stroke-width="3.1" filter="url(#trail-glow)">
+          <use href="#bottom-path-a" stroke="url(#bottom-a)"/><use href="#bottom-path-b" stroke="url(#bottom-b)"/>
+        </g>
+        <g transform="translate(-6 20)" stroke-width=".9">
+          <use href="#bottom-path-a" stroke="url(#bottom-a)"/><use href="#bottom-path-b" stroke="url(#bottom-b)"/>
+        </g>
+      </g>
+    </g>
+    <g class="color-flecks">
+      <circle cx="130" cy="195" r="5" fill="#ef3a65"/><circle cx="220" cy="315" r="3" fill="#15b8c4"/>
+      <circle cx="343" cy="170" r="6" fill="#ff6629"/><circle cx="465" cy="265" r="3" fill="#ffd12a"/>
+      <circle cx="626" cy="88" r="4" fill="#8ad844"/><circle cx="774" cy="214" r="5" fill="#e82975"/>
+      <circle cx="904" cy="109" r="3" fill="#24b9c4"/><circle cx="1034" cy="260" r="6" fill="#ff6b26"/>
+      <circle cx="1178" cy="146" r="4" fill="#ffca28"/><circle cx="1390" cy="244" r="5" fill="#24a9ba"/>
+      <circle cx="1510" cy="131" r="3" fill="#7dda48"/><circle cx="118" cy="570" r="4" fill="#ffd12a"/>
+      <circle cx="286" cy="655" r="5" fill="#e92778"/><circle cx="515" cy="714" r="3" fill="#16b9b1"/>
+      <circle cx="735" cy="602" r="5" fill="#8bd53f"/><circle cx="975" cy="690" r="4" fill="#ff5e25"/>
+      <circle cx="1260" cy="543" r="5" fill="#e32d8f"/><circle cx="1453" cy="672" r="3" fill="#2586dc"/>
+      <ellipse cx="1068" cy="109" rx="8" ry="3.5" transform="rotate(-24 1068 109)" fill="#ff6326"/>
+      <ellipse cx="1321" cy="382" rx="6.5" ry="3" transform="rotate(-38 1321 382)" fill="#84d645"/>
+      <ellipse cx="390" cy="475" rx="5.5" ry="2.5" transform="rotate(22 390 475)" fill="#1eb9c5"/>
+      <ellipse cx="853" cy="481" rx="7" ry="3" transform="rotate(-18 853 481)" fill="#ef2a6f"/>
+      <ellipse cx="172" cy="112" rx="7.5" ry="3" transform="rotate(54 172 112)" fill="#ff5429"/>
+      <ellipse cx="548" cy="154" rx="3.5" ry="7" transform="rotate(31 548 154)" fill="#76dc45"/>
+      <ellipse cx="708" cy="347" rx="8.5" ry="3.5" transform="rotate(-31 708 347)" fill="#ef2e6f"/>
+      <ellipse cx="1160" cy="348" rx="4" ry="8" transform="rotate(42 1160 348)" fill="#ffd02a"/>
+      <ellipse cx="1512" cy="452" rx="7" ry="2.5" transform="rotate(-12 1512 452)" fill="#18bdb7"/>
+      <ellipse cx="394" cy="806" rx="4" ry="8.5" transform="rotate(-36 394 806)" fill="#ff6b26"/>
+      <ellipse cx="742" cy="833" rx="8" ry="3" transform="rotate(18 742 833)" fill="#83d943"/>
+      <ellipse cx="1362" cy="836" rx="3.5" ry="7.5" transform="rotate(28 1362 836)" fill="#e92a80"/>
+    </g>
+  </svg>
+
+  <div class="first-screen">
+    <header class="site-header">
+      <div class="intro-studio">
+        <h1 class="brand-heading">
+          <a class="brand studio-brand" href="#main">
+            <img class="brand-symbol" src="images/utopia-machina-logo.svg" alt="">
+            <span class="brand-copy">
+              <span class="brand-name">Utopia Machina</span>
+              <span class="brand-tagline">Bottling playful chaos into tiny utopias.</span>
+            </span>
+          </a>
+        </h1>
+      </div>
+
+      <div class="masthead-aside">
+        <nav class="social-nav" aria-label="Follow Utopia Machina">
+          <a href="https://www.youtube.com/@UtopiaMachina/" target="_blank" rel="noreferrer">YouTube</a>
+          <a href="https://www.tiktok.com/@utopiamachina" target="_blank" rel="noreferrer">TikTok</a>
+          <a href="https://www.instagram.com/utopiamachina/" target="_blank" rel="noreferrer">Instagram</a>
+          <a class="discord-link" href="https://discord.gg/ZvGYVJdN9t" target="_blank" rel="noreferrer">Discord <span aria-hidden="true">↗</span></a>
+        </nav>
+        <p class="masthead-copy">I’m Oshev, the solo developer behind Utopia Machina. I enjoy making games that make people smile and can be played in short bursts.</p>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="games" aria-labelledby="games-title">
+        <h2 class="games-title" id="games-title">Our games</h2>
+
+        <article class="game-card hunters-card">
+          <a class="game-media" href="hunters.html" aria-label="Learn more about Hunters In The Dark">
+            <img src="images/hunters-header.jpg" alt="Hunters In The Dark key art" class="game-image">
+          </a>
+          <div class="game-card-content">
+            <div class="game-card-copy">
+              <div class="game-meta">
+                <span class="status live">In Early Access</span>
+                <span>with <strong>Wild Ox Studios</strong></span>
+              </div>
+              <p>A frantic party tag game for 1–4 players. Race for loot—or hunt down everyone who does.</p>
+            </div>
+            <div class="card-actions">
+              <a class="card-link" href="https://store.steampowered.com/app/3753790/Hunters_In_The_Dark/" target="_blank" rel="noreferrer">
+                Play on Steam <span aria-hidden="true">↗</span>
+              </a>
+              <a class="card-link secondary-link" href="hunters.html">
+                Learn more <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <article class="game-card lunch-card">
+          <a class="game-media" href="lunch-strolls.html" aria-label="Learn more about Lunch Strolls">
+            <img src="images/lunch-header.jpg" alt="Lunch Strolls prototype key art" class="game-image">
+          </a>
+          <div class="game-card-content">
+            <div class="game-card-copy">
+              <div class="game-meta">
+                <span class="status prototype">Prototype</span>
+                <span>Solo project</span>
+              </div>
+              <p>A solo-made puzzle platformer prototype, still proving its idea. If you’d like it to become a full game, I want to hear from you.</p>
+            </div>
+            <div class="card-actions">
+              <a class="card-link lunch-interest" href="mailto:oshev@utopiamachina.co.uk?subject=I%27m%20interested%20in%20Lunch%20Strolls">
+                Tell me you’re interested <span aria-hidden="true">→</span>
+              </a>
+              <a class="card-link secondary-link" href="lunch-strolls.html">
+                Learn more <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section id="newsletter" class="newsletter" aria-labelledby="newsletter-title">
+        <div class="newsletter-heading">
+          <h2 id="newsletter-title">Follow what’s brewing.</h2>
+        </div>
+
+        <form class="signup-form" data-newsletter-form>
+          <p class="newsletter-promise">Studio updates, progress on our games, and what we're working on next—<br>normally no more than once a week.</p>
+          <input type="hidden" name="interests" value="studio">
+          <input type="hidden" name="interests" value="hunters">
+          <input type="hidden" name="interests" value="lunch">
+
+          <div class="email-wrap">
+            <label class="sr-only" for="email">Email address</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+            <button type="submit">Keep me posted <span aria-hidden="true">↗</span></button>
+          </div>
+          <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer id="contact" class="site-footer">
+      <p><span>Want to swap ideas? Let’s make contact: </span> <a href="mailto:oshev@utopiamachina.co.uk">oshev@utopiamachina.co.uk</a></p>
+      <div>
+        <a href="privacy.html">Privacy</a>
+        <span>© <span data-year></span> Utopia Machina</span>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>

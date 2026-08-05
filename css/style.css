@@ -285,6 +285,23 @@ main {
   color: var(--paper);
   font-weight: 800;
 }
+.game-card .game-meta {
+  flex-wrap: wrap;
+  row-gap: .45rem;
+  font-size: clamp(.69rem, .78vw, .76rem);
+}
+.partner-logos {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  margin-left: .2rem;
+}
+.partner-logos img {
+  width: auto;
+  height: 2.35rem;
+  object-fit: contain;
+}
+.partner-logos img:last-child { height: 2.15rem; }
 .status {
   padding: .25rem .45rem;
   color: var(--ink);
@@ -347,7 +364,15 @@ main {
   gap: 2rem;
   border-bottom: 1px solid var(--line);
 }
-.detail-header .brand-lockup-image { height: clamp(4.5rem, 6vw, 6.3rem); }
+.detail-studio-brand .brand-copy {
+  align-self: center;
+  gap: .25rem;
+}
+.detail-studio-brand .brand-name { font-size: clamp(1.15rem, 1.8vw, 1.6rem); }
+.detail-studio-brand .brand-tagline {
+  color: #bdb7c2;
+  font-size: clamp(.76rem, 1vw, .92rem);
+}
 .detail-nav {
   display: flex;
   align-items: center;
@@ -449,6 +474,88 @@ main {
   text-transform: uppercase;
 }
 .feature-card p { margin: 0; color: #beb8c4; }
+.hunters-updates {
+  display: grid;
+  gap: clamp(1.2rem, 2vw, 1.8rem);
+}
+.hunters-release-note {
+  display: grid;
+  grid-template-columns: minmax(16rem, .8fr) minmax(0, 1.2fr);
+  align-items: end;
+  gap: clamp(1.5rem, 5vw, 5rem);
+  padding: clamp(1.4rem, 3vw, 2.4rem);
+  background:
+    linear-gradient(rgba(5,14,17,.92), rgba(5,14,17,.92)) padding-box,
+    linear-gradient(105deg, var(--hot), var(--amber), var(--lime), var(--cyan), var(--magenta)) border-box;
+  border: 1px solid transparent;
+  border-radius: .7rem;
+}
+.hunters-release-note h2 {
+  margin: .45rem 0 0;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: .95;
+  letter-spacing: -.05em;
+}
+.hunters-release-note > p {
+  margin: 0;
+  color: #c4bec9;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+}
+.arcade-feature {
+  overflow: hidden;
+  background: rgba(8,18,21,.78);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: .7rem;
+}
+.arcade-intro {
+  display: grid;
+  grid-template-columns: minmax(12rem, .55fr) minmax(0, 1.45fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding: clamp(1.4rem, 3vw, 2.5rem);
+}
+.waybacks-logo-link {
+  display: block;
+  transform: rotate(-1deg);
+  transition: transform .2s ease;
+}
+.waybacks-logo-link:hover,
+.waybacks-logo-link:focus-visible { transform: rotate(-1deg) scale(1.025); }
+.waybacks-logo-link img {
+  width: min(100%, 24rem);
+  height: auto;
+}
+.arcade-intro h3 {
+  margin: .45rem 0 .7rem;
+  font-size: clamp(1.8rem, 3.5vw, 3.4rem);
+  line-height: .95;
+  letter-spacing: -.045em;
+}
+.arcade-intro p:last-child {
+  max-width: 48rem;
+  margin: 0;
+  color: #c4bec9;
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+}
+.arcade-intro p a { color: var(--cyan); }
+.arcade-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(255,255,255,.14);
+  border-top: 1px solid rgba(255,255,255,.14);
+}
+.arcade-gallery figure {
+  margin: 0;
+  overflow: hidden;
+  background: #05030b;
+}
+.arcade-gallery img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -834,6 +941,7 @@ main {
   .game-card-content { align-items: flex-start; }
   .detail-hero { grid-template-columns: 1fr; }
   .feature-grid { grid-template-columns: 1fr; }
+  .hunters-release-note { grid-template-columns: 1fr; align-items: start; gap: 1rem; }
   .lunch-synopsis { grid-template-columns: 1fr; gap: 1.5rem; }
   .newsletter { grid-template-columns: 1fr; }
   .signup-form { grid-template-columns: 1fr; }
@@ -855,9 +963,14 @@ main {
   .game-card-content { align-items: flex-start; flex-direction: column; }
   .card-actions { justify-content: flex-start; flex-wrap: wrap; white-space: normal; }
   .gallery-grid { grid-template-columns: 1fr; }
-  .detail-header { min-height: 5.5rem; }
-  .detail-header .brand-lockup-image { height: 4.5rem; }
+  .detail-header { min-height: 5.5rem; gap: .8rem; }
+  .detail-studio-brand .brand-name { font-size: 1.15rem; }
+  .detail-studio-brand .brand-tagline { max-width: 14rem; font-size: .78rem; }
   .detail-nav a:not(.back-link) { display: none; }
+  .arcade-intro { grid-template-columns: 1fr; gap: 1rem; }
+  .waybacks-logo-link img { width: min(15rem, 82%); }
+  .arcade-gallery { grid-template-columns: 1fr; }
+  .arcade-gallery img { aspect-ratio: 4 / 3; object-position: center 42%; }
   .newsletter { margin-top: 1.25rem; padding: 1.2rem; }
   .newsletter-details .entry__choice strong { font-size: .78rem; }
   .email-wrap { flex-direction: column; }

@@ -951,8 +951,14 @@ main {
 @media (max-width: 700px) {
   .site-header { display: flex; align-items: stretch; flex-direction: column; gap: 1rem; padding-top: .5rem; }
   .brand { letter-spacing: .08em; }
-  .social-nav { flex: 0 0 auto; justify-content: flex-start; order: 1; }
-  .social-nav a:not(.discord-link) { display: none; }
+  .social-nav {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: .5rem .75rem;
+    order: 1;
+  }
+  .social-nav .discord-link { padding: .45rem .6rem; }
   main { display: block; padding: 1.2rem 0; }
   .intro-studio { order: 0; }
   .brand-symbol { height: 6.75rem; }

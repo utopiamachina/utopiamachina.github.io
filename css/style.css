@@ -842,6 +842,7 @@ main {
   position: fixed;
   z-index: 1000;
   left: 50%;
+  transform: translateX(-50%);
   bottom: clamp(.75rem, 2vw, 1.5rem);
   width: min(calc(100% - 2rem), 68rem);
   display: grid;
